@@ -1,0 +1,41 @@
+.page{
+  display: flex;
+}
+.scene-panel{
+  width:20%;
+  font-size:20px;
+  color: black;
+}
+.scene-panel a{
+  text-decoration: underline;
+}
+.scene-panel a:visited{
+  color: black;
+}
+.key-panel{
+  text-align: center;
+  width:80%;
+}
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.keybox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid black;
+  margin: 5px;
+  font-size: 24px;
+}
+.pressed{
+  background: grey;
+  color: white;
+}
+.paused{
+  background:lightsalmon;
+  color:white;
+}
