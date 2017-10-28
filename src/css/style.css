@@ -8,6 +8,7 @@
 }
 .scene-panel a{
   text-decoration: underline;
+  color: black;
 }
 .scene-panel a:visited{
   color: black;

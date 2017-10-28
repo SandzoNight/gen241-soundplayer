@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import Keybox from './Keybox.js'
 
 class Scene1 extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>
@@ -66,7 +62,6 @@ class Scene1 extends Component {
       </div>
     );
   }
-  
 }
 
 export default Scene1;
