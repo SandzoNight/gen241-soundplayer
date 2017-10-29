@@ -31,12 +31,11 @@ class Keybox extends Component {
             <div className="time">{Math.ceil(this.state.position)}/{Math.ceil(this.state.duration)}</div>
         </div>
           <Sound 
-            url={this.props.sound} 
+            url={this.props.sound}
             playStatus={this.state.status[this.state.statusIndex]}
-            autoLoad={true}
+            autoLoad={false}
             onFinishedPlaying={()=>this.stopped()}
             onPlaying={(val) => this.playing(val)}
-            onLoading={(val => this.loading(val))}
           />
       </div>
     );
@@ -60,10 +59,6 @@ class Keybox extends Component {
   playing(val) {
     this.setState({position: val.position/100,duration: val.duration/100})
     console.log(this.state.position)
-  }
-  loading(val) {
-    // console.log(this.state.bytesLoaded)
-    // console.log(val.position)
   }
 }
 
