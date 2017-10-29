@@ -42,12 +42,16 @@ body{
   align-items: center;
   justify-content: center;
   flex-flow: column;
-  width: 64px;
-  height: 64px;
+  width: 54px;
+  height: 54px;
   border: 1px solid black;
   border-radius: 10px;
   margin: 5px;
   font-size: 24px;
+}
+.keybox-container{
+  padding:0 15px 0 0;
+  font-size: 14px;
 }
 .pressed{
   background: grey;
@@ -60,4 +64,15 @@ body{
 .time{
   width: 100%;
   font-size: 10px;
+}
+.volAdjus{
+  -webkit-appearance: none;
+  height: 64px;
+  border-radius: 5px;
+  background: #ccc;
+  outline: none;
+  writing-mode: bt-lr;
+  /* IE */
+  -webkit-appearance: slider-vertical;
+  /* WebKit */
 }
