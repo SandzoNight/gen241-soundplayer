@@ -11,25 +11,33 @@ class Keybox extends Component {
       press:false,
       status: [Sound.status.PLAYING,Sound.status.PAUSED,Sound.status.STOPPED],
       statusIndex:2,
-      style: ['pressed','paused','']
+      style: ['pressed','paused',''],
+      duration: 0,
+      position: 0,
     }
   }
 
   render() {
+
     return (
       <div>
         <div>
           {this.props.children}
         </div>
         <div className={`keybox ${this.state.style[this.state.statusIndex]}`}>
-            {this.props.keyswitch}
+            <div style={{width:'100%'}}>
+              {this.props.keyswitch}
+            </div>
+            <div className="time">{Math.ceil(this.state.position)}/{Math.ceil(this.state.duration)}</div>
+        </div>
           <Sound 
             url={this.props.sound} 
             playStatus={this.state.status[this.state.statusIndex]}
             autoLoad={true}
             onFinishedPlaying={()=>this.stopped()}
+            onPlaying={(val) => this.playing(val)}
+            onLoading={(val => this.loading(val))}
           />
-        </div>
       </div>
     );
   }
@@ -48,6 +56,14 @@ class Keybox extends Component {
 
   stopped() {
     this.setState({statusIndex:2})
+  }
+  playing(val) {
+    this.setState({position: val.position/100,duration: val.duration/100})
+    console.log(this.state.position)
+  }
+  loading(val) {
+    // console.log(this.state.bytesLoaded)
+    // console.log(val.position)
   }
 }
 
