@@ -14,6 +14,13 @@
         "vol":"100",
         "title":"Gun",
         "loop":false}]
+      },
+      {"attr":[{
+        "button":"E",
+        "src":"/audio/Screams - Woman-Girl1.mp3",
+        "vol":"100",
+        "title":"Scream",
+        "loop":false}]
       }
     ]},
     {"sceneid":1,"scenename":"Scene2","keys":[

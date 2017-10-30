@@ -8,22 +8,24 @@ import raf from 'raf'
 class Keybox extends Component {
   constructor(props) {
     super(props);
-    key(this.props.keyswitch, () => this.pressed());
-    key('shift+'+this.props.keyswitch, () =>this.handleStop())
+    
     this.state = {
       press:false,
       statusIndex:3,
       style: ['pressed','paused',''],
       duration: 0,
       position: 0,
-      vol: this.props.vol,
+      vol: 100,
       playing: false
     }
-    this.handleSeek = this.handleSeek.bind(this)
+    
   }
   
   componentDidMount() {
     this.setState({duration:this.player.duration()})
+    key(this.props.keyswitch, () => this.pressed());
+    key('shift+'+this.props.keyswitch, () =>this.handleStop())
+    this.setState({vol:this.props.vol})
   }
 
   render() {
@@ -45,8 +47,8 @@ class Keybox extends Component {
           playing={this.state.playing}
           preLoad={true}
           onLoad={() => this.handleLoad()}
-          onStop={()=>this.stopped()}
-          onEnd={()=>this.stopped()}
+          onStop={()=>this.handlePause()}
+          onEnd={()=>this.handleStop()}
           onPlay={() => this.playing()}
           volume={this.state.vol/100}
           ref={(ref) => (this.player = ref)}
@@ -70,7 +72,20 @@ class Keybox extends Component {
     this.setState({duration:this.player.duration().toFixed(2)})
   }
   handleStop() {
-    this.player.stop();
+    try{
+      this.player.seek(0);
+    }catch(err){
+    }
+    this.setState({
+      playing:false,
+      statusIndex:2
+    })
+  }
+  handlePause() {
+    this.player.stop()
+    this.setState({
+      statisIndex:1
+    })
   }
   handleSeek() {
     try{
@@ -79,15 +94,10 @@ class Keybox extends Component {
 
     }
     if(this.state.playing){
-      this._raf = raf(this.handleSeek)
+      this._raf = raf(()=>this.handleSeek())
     }
   }
 
-  stopped() {
-    this.setState({statusIndex:2})
-    this.setState({playing:false})
-    console.log('stopped')
-  }
   playing(val) {
     
     this.handleSeek();
