@@ -1,0 +1,29 @@
+[{
+  "scene":[
+    {"sceneid":0,"scenename":"Scene1","keys":[
+      {"attr":[{
+        "button":"Q",
+        "src":"/audio/ShotGun.mp3",
+        "vol":"100",
+        "title":"Gun",
+        "loop":false}]
+      },
+      {"attr":[{
+        "button":"W",
+        "src":"/audio/ShotGun.mp3",
+        "vol":"100",
+        "title":"Gun",
+        "loop":false}]
+      }
+    ]},
+    {"sceneid":1,"scenename":"Scene2","keys":[
+      {"attr":[{
+        "button":"E",
+        "src":"/audio/ShotGun.mp3",
+        "vol":"100",
+        "title":"Gun",
+        "loop":false}]
+      }
+    ]}
+  ]
+}]

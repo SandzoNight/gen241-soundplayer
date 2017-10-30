@@ -36,17 +36,18 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 24px;
 }
 .keybox{
   display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: column;
-  width: 54px;
-  height: 54px;
+  width: 48px;
+  height: 48px;
   border: 1px solid black;
   border-radius: 10px;
-  margin: 5px;
+  margin: 2px 5px 17px 5px;
   font-size: 24px;
 }
 .keybox-container{

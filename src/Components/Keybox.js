@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 import key from './../keymaster'
-import Sound from 'react-sound';
+import ReactHowler from 'react-howler'
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
+import raf from 'raf'
 
 class Keybox extends Component {
   constructor(props) {
     super(props);
     key(this.props.keyswitch, () => this.pressed());
-    key('shift+'+this.props.keyswitch, () =>this.pause())
+    key('shift+'+this.props.keyswitch, () =>this.handleStop())
     this.state = {
       press:false,
-      status: [Sound.status.PLAYING,Sound.status.PAUSED,Sound.status.STOPPED],
-      statusIndex:2,
+      statusIndex:3,
       style: ['pressed','paused',''],
       duration: 0,
       position: 0,
-      vol: this.props.vol
+      vol: this.props.vol,
+      playing: false
     }
+    this.handleSeek = this.handleSeek.bind(this)
+  }
+  
+  componentDidMount() {
+    this.setState({duration:this.player.duration()})
   }
 
   render() {
@@ -31,16 +37,20 @@ class Keybox extends Component {
             <div style={{width:'100%'}}>
               {this.props.keyswitch}
             </div>
-            <div className="time">{Math.ceil(this.state.position)}/{Math.ceil(this.state.duration)}</div>
+            <div className="time">{this.state.position}/{this.state.duration}</div>
         </div>
-        <InputRange minValue={0} maxValue={100} value={this.state.vol} onChange={(value)=>{this.setState({vol:value})}}/>
-        <Sound 
-          url={this.props.sound}
-          playStatus={this.state.status[this.state.statusIndex]}
-          autoLoad={false}
-          onFinishedPlaying={()=>this.stopped()}
-          onPlaying={(val) => this.playing(val)}
-          volume={this.state.vol}
+        <InputRange minValue={0} maxValue={100} value={this.state.vol-0} onChange={(value)=>{this.setState({vol:value})}}/>
+        <ReactHowler 
+          src={this.props.sound}
+          playing={this.state.playing}
+          preLoad={true}
+          onLoad={() => this.handleLoad()}
+          onStop={()=>this.stopped()}
+          onEnd={()=>this.stopped()}
+          onPlay={() => this.playing()}
+          volume={this.state.vol/100}
+          ref={(ref) => (this.player = ref)}
+          html5={false}
         />
         
       </div>
@@ -48,23 +58,39 @@ class Keybox extends Component {
   }
   
   pressed() {
-    if(this.state.statusIndex===0){
-      this.setState({statusIndex:2})
-    }else if(this.state.statusIndex===2||this.state.statusIndex===1){
+    if(this.state.playing===true){
+      this.setState({playing:false})
+      this.setState({statusIndex:1})
+    }else if(this.state.playing===false){
+      this.setState({playing:true})
       this.setState({statusIndex:0})
     }
   }
+  handleLoad() {
+    this.setState({duration:this.player.duration().toFixed(2)})
+  }
+  handleStop() {
+    this.player.stop();
+  }
+  handleSeek() {
+    try{
+      this.setState({position:this.player.seek().toFixed(2)})
+    }catch(err){
 
-  pause() {
-    this.setState({statusIndex:1})
+    }
+    if(this.state.playing){
+      this._raf = raf(this.handleSeek)
+    }
   }
 
   stopped() {
     this.setState({statusIndex:2})
+    this.setState({playing:false})
+    console.log('stopped')
   }
   playing(val) {
-    this.setState({position: val.position/100,duration: val.duration/100})
-    console.log(this.state.position)
+    
+    this.handleSeek();
   }
 }
 

@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
-import Scene1 from './Components/Scene1'
-// import Scene2 from './Components/Scene2'
+import Main from './Components/Main'
+import Scene from './Components/Scene'
+import data from './config/data.json'
 import {
-  Route
+  Route,Switch
 } from 'react-router-dom'
 
 class Routes extends Component {
 
   render() {
     return (
-      <Route path="/scene1" component={Scene1}/>
+      <div>
+        <Switch>
+          <Route exact path="/" component={Main}/>
+          {data.map((scenes,i)=>(
+            scenes.scene.map((scene,i)=>(
+              <Route path={`/scene/${i}`} key={i} render={(props)=>(<Scene data={scene} />)}/>
+            ))
+          ))}
+        </Switch>
+      </div>
     );
   }
   
